@@ -1,0 +1,53 @@
+doctype html
+html(lang="en")
+  head
+    meta(name="viewpoert", content="width=device-width, initial-scale=1.0")
+    title Init Sandbox Virtual Hosts
+    link(href='https://bootswatch.com/darkly/bootstrap.css', rel='stylesheet')
+    link(rel="stylesheet", href="/css/main.css")
+  body( *model="#model")
+    .container
+      center.row
+        .col-sm-5.container-outside
+          br
+          virtualhosts.container( *for='virtualhosts')
+            .list-group
+              a.list-group-item.active( *bring="name", href="#")
+              div( *for="envs")
+                a.list-group-item( *onclick="#model.selectme") » &nbsp;
+                  span( *bring="name")
+                  .pull-right( *for="notes")
+                    span.label( *bring="#model.value")
+        container.col-sm-7( *model="#model.details")
+          br
+          br
+          .navbar.navbar-inverse
+            .container-fluid
+              .navbar-header.navbar-right
+                a.navbar-brand(href="#")
+                  span Init Sandbox Virtual Hosts
+              .navbar-form.navbar-left(role="search")
+                br
+                .from-group
+                  input#filtro.form-control(type="text", placeholder="Filtrar", *dlink="#model.filtrar")
+                  span.glyphicon.glyphicon-remove-circle.clearfilter
+          br
+          section.container.details
+            h1( *bring="name")
+            p( *cls="-hide:#model.details.show" )
+              br
+              span.title Dominios:&nbsp;
+              span.links( *for="subdomain" ) &nbsp; <a *bring="#model.value", *href="#model.geturl"></a> &nbsp;
+              br
+              span.title Código: &nbsp;
+                bring( ~root )
+              br
+              span.title nginx.conf: &nbsp; /etc/nginx/sites-enabled/
+                bring( ~name )
+              br
+          br
+          br
+        //-  iframe(href="")
+
+    script(src="/js/data-link.js")
+    script(src="/js/main.js")
