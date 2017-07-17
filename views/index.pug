@@ -6,21 +6,9 @@ html(lang="en")
     link(href='https://bootswatch.com/darkly/bootstrap.css', rel='stylesheet')
     link(rel="stylesheet", href="/css/main.css")
   body( *model="#model")
-    .container
+    .container-fluid
       center.row
-        .col-sm-5.container-outside
-          br
-          virtualhosts.container( *for='virtualhosts')
-            .list-group
-              a.list-group-item.active( *bring="name", href="#")
-              div( *for="envs")
-                a.list-group-item( *onclick="#model.selectme") » &nbsp;
-                  span( *bring="name")
-                  .pull-right( *for="notes")
-                    span.label( *bring="#model.value")
-        container.col-sm-7( *model="#model.details")
-          br
-          br
+        .col-md-7.col-md-push-5( *model="#model.details")
           .navbar.navbar-inverse
             .container-fluid
               .navbar-header.navbar-right
@@ -31,7 +19,6 @@ html(lang="en")
                 .from-group
                   input#filtro.form-control(type="text", placeholder="Filtrar", *dlink="#model.filtrar")
                   span.glyphicon.glyphicon-remove-circle.clearfilter
-          br
           section.container.details
             h1( *bring="name")
             p( *cls="-hide:#model.details.show" )
@@ -45,9 +32,17 @@ html(lang="en")
               span.title nginx.conf: &nbsp; /etc/nginx/sites-enabled/
                 bring( ~name )
               br
-          br
-          br
         //-  iframe(href="")
+        .col-md-5.col-md-pull-7.container-outside
+          br
+          virtualhosts.container( *for='virtualhosts')
+            .list-group
+              a.list-group-item.active( *bring="name", href="#")
+              div( *for="envs")
+                a.list-group-item( *onclick="#model.selectme") » &nbsp;
+                  span( *bring="name")
+                  .pull-right( *for="notes")
+                    span.label( *bring="#model.value")
 
     script(src="/js/data-link.js")
     script(src="/js/main.js")

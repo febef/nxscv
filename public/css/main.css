@@ -1,10 +1,10 @@
-html, body, .container, center.row {
+html, body, .container, .container-fluid , center.row {
   width: 100%;
   height: 100%;
 }
 
 .list-group {
-  width: 85%;
+  width: 100%;
 }
 
 .navbar-inverse {
@@ -18,7 +18,8 @@ html, body, .container, center.row {
 
 .container-outside {
   overflow-y: scroll;
-  height: 100%;
+  max-height: 100%;
+  min-height: 100px;
 }
 
 a.list-group-item{
@@ -42,12 +43,22 @@ h1 {
   color: #3d3d3d;
   font-size: 10px;
   margin-left: -14px;
+  margin-top: 4px;
   transition: color 0.5s;
 }
 
 #filtro {
   padding-left: 6px;
 }
+.from-group {
+  display: inline-flex;
+}
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+  border-top: none;
+  border-bottom: none;
+  box-shadow: none;
+}
+
 
 .list-group-item:last-child {
   border-bottom-right-radius: 0px;
@@ -80,8 +91,7 @@ h1 {
   background: #222;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #1a1a1a;
+  ddbackground: #1a1a1a;
   -webkit-border-radius: 1ex;
   -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
 }
@@ -89,4 +99,10 @@ h1 {
 ::-webkit-scrollbar-corner {
   background: #222;
 }
+@media (max-width: @screen-xs) {
+  body{font-size: 10pt;}
+}
 
+@media (max-width: @screen-sm) {
+  body{font-size: 18pt;}
+}
