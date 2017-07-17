@@ -48,7 +48,7 @@ model.filtrar = function(){
   model.virtualhosts = virtualhosts.filter(v=> v);
   return str;
 };
-model.frist
+
 model.geturl = function(){
   return "http://" + this.toString();
 };
