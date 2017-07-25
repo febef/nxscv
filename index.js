@@ -15,7 +15,7 @@ var getConfs = function(){
   return files;
 }
 
-var getBetweenOf = (start, end, str) => {
+var getBetweenOf = (start, end, str='') => {
   let a = str.split(start)[1];
   return  (a ) ? a.split(end)[0] : '';
 }
@@ -51,6 +51,16 @@ var getDomainbase = function(domain) {
   return splDomain[i] + "." + bdom;
 }
 
+var getUpstream = function(config){
+  if (!config) return;
+  let upstream = strClearFormat(getBetweenOf("upstream ","}", config)).split('{');
+  let proxy = strClearFormat(getBetweenOf('server',';', upstream[1]));
+  return {
+    name: (proxy && proxy !='') ? strClearFormat(upstream[0]) : '',
+    proxy
+  };
+}
+
 var getEnvs = function(){
 
   let configs = getConfs();
@@ -59,6 +69,9 @@ var getEnvs = function(){
     let domains = strClearFormat(getBetweenOf("server_name", ";", configs[i].data));
     let root = "/" + strClearFormat(getBetweenOf("root /", ";", configs[i].data));
     let notes = strClearFormat(getBetweenOf("#notes:",";", configs[i].data)).split("|");
+    let pwd = strClearFormat(getBetweenOf("#password:",";", configs[i].data));
+    let usr = strClearFormat(getBetweenOf("#user:",";", configs[i].data));
+    let proxypass = getUpstream(configs[i].data);
     let gitData = getGitData(root);
     let dbase = getDomainbase(configs[i].name);
     if (!envs[dbase]) envs[dbase] = {};
@@ -67,7 +80,9 @@ var getEnvs = function(){
       notes: notes,
       subdomain: domains.split(" ").map(domain => strClearFormat(domain).split("conf")[0]).filter(v => v!=""),
       root: root,
-      git: gitData
+      git: gitData,
+      user: {name: usr, pwd},
+      proxypass
     };
   }
   return envs;

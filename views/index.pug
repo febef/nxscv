@@ -9,7 +9,7 @@ html(lang="en")
   body( *model="#model")
     .container-fluid
       center.row
-        .col-md-7.col-md-push-5( *model="#model.details")
+        .col-md-6.col-md-push-6( *model="#model.details")
           .navbar.navbar-inverse
             .container-fluid
               .navbar-header.navbar-right
@@ -20,25 +20,28 @@ html(lang="en")
                 .from-group
                   input#filtro.form-control(type="text", placeholder="Filtrar", *dlink="#model.filtrar")
                   span.glyphicon.glyphicon-remove-circle.clearfilter
-          section.container.details
-            h1( *bring="name")
-            p( *cls="-hide:#model.details.show" )
-              br
+          h1( *bring="name")
+          br
+          section.container.details( *cls="-hide:#model.details.show" )
+            p
               span.title Dominios:&nbsp;
               span.links( *for="subdomain" ) <a *bring="#model.value", *href="#model.geturl"></a> &nbsp;
+            p
+              spant.title <i class="fa fa-user" aria-hidden="true"></i> &nbsp; &nbsp; <bring ~user.name></bring>
               br
+              spant.title <i class="fa fa-key" aria-hidden="true"></i> &nbsp; <bring ~user.pwd></bring>
+            p
               span.title <i class="fa fa-code" aria-hidden="true"></i> &nbsp;
               small( *bring="root")
               br
               span.title <i class="fa fa-server" aria-hidden="true"></i> &nbsp;
               small /etc/nginx/sites-enabled/<bring ~name> </bring>
-              br
-              br
+            p
               span.title <i class="fa fa-bitbucket" aria-hidden="true"></i> &nbsp;
-              span.title <i class="fa fa-code-fork" aria-hidden="true"></i> &nbsp;
+              span.title <i class="fa fa-code-fork" aria-hidden="true"></i> &nbsp; 
               span.title( *bring="git.branch" )
               small( *bring="git.repo" )
-        .col-md-5.col-md-pull-7.container-outside
+        .col-md-6.col-md-pull-6.container-outside
           br
           virtualhosts.container( *for='virtualhosts')
             .list-group

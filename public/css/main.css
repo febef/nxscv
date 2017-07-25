@@ -36,7 +36,8 @@ h1 {
 
 section.details {
   font-size: 10pt;
-
+  margin: 0px;
+  word-warp: all;
 }
 
 span.small{ 
