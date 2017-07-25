@@ -1,9 +1,10 @@
 doctype html
 html(lang="en")
   head
-    meta(name="viewpoert", content="width=device-width, initial-scale=1.0")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
     title Init Sandbox Virtual Hosts
     link(href='https://bootswatch.com/darkly/bootstrap.css', rel='stylesheet')
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
     link(rel="stylesheet", href="/css/main.css")
   body( *model="#model")
     .container-fluid
@@ -24,15 +25,19 @@ html(lang="en")
             p( *cls="-hide:#model.details.show" )
               br
               span.title Dominios:&nbsp;
-              span.links( *for="subdomain" ) &nbsp; <a *bring="#model.value", *href="#model.geturl"></a> &nbsp;
+              span.links( *for="subdomain" ) <a *bring="#model.value", *href="#model.geturl"></a> &nbsp;
               br
-              span.title Código: &nbsp;
-                bring( ~root )
+              span.title <i class="fa fa-code" aria-hidden="true"></i> &nbsp;
+              small( *bring="root")
               br
-              span.title nginx.conf: &nbsp; /etc/nginx/sites-enabled/
-                bring( ~name )
+              span.title <i class="fa fa-server" aria-hidden="true"></i> &nbsp;
+              small /etc/nginx/sites-enabled/<bring ~name> </bring>
               br
-        //-  iframe(href="")
+              br
+              span.title <i class="fa fa-bitbucket" aria-hidden="true"></i> &nbsp;
+              span.title <i class="fa fa-code-fork" aria-hidden="true"></i> &nbsp;
+              span.title( *bring="git.branch" )
+              small( *bring="git.repo" )
         .col-md-5.col-md-pull-7.container-outside
           br
           virtualhosts.container( *for='virtualhosts')

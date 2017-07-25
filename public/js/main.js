@@ -5,7 +5,7 @@ var dl = new DataLink();
 var model={
   originalvirtualhosts: [],
   virtualhosts: [],
-  details: {name: "seleccione un sitio", show: false, iurl:""}
+  details: {name: "seleccione un sitio", show: false, iurl:"", git:{branch:'', repo:''}}
 };
 
 headers.append('Authorization', 'Basic aW5pdGFkbWluOjFuMXQ0ZG0xbg==');
@@ -21,6 +21,8 @@ model.selectme = function(){
   model.details.name = this.name;
   model.details.root = this.root;
   model.details.show = true;
+  model.details.git.repo = this.git.repo.split("origin").join("<br>&nbsp;&nbsp;");
+  model.details.git.branch = this.git.branch;
   $("iframe").src = "http://" + this.subdomain[0]
   model.details.subdomain = (Array.isArray(this.subdomain))? this.subdomain : [];
 };

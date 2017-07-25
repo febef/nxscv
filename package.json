@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "exec": "^0.2.1",
     "express": "^4.15.3",
     "pug": "^2.0.0-rc.2"
   }

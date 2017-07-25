@@ -30,7 +30,21 @@ a.list-group-item{
 }
 
 h1 {
-  font-size: 22pt;
+  font-size: 16pt;
+  font-weight: 600;
+}
+
+section.details {
+  font-size: 10pt;
+
+}
+
+span.small{ 
+  font-size: 4pt;
+}
+
+span.title {
+  font-weight: 600;
 }
 
 .glyphicon.glyphicon-remove-circle.clearfilter:hover{

@@ -1,7 +1,7 @@
 const express = require('express');
-const fs =require('fs');
-
+const fs = require('fs');
 const nginxSites = '/etc/nginx/sites-enabled';
+const execSync = require('child_process').execSync;
 
 var app = express();
 
@@ -20,8 +20,20 @@ var getBetweenOf = (start, end, str) => {
   return  (a ) ? a.split(end)[0] : '';
 }
 
-var strClearFormat = (str) => str.replace(/\r?\n|\r|\n/g,'').replace(/\s+/g,' ');
+var getGitData = function(repoPath) {
+  try{
+   branch = execSync(`cd ${repoPath}; git branch`).toString();
+   repo = execSync(`cd ${repoPath}; git remote -v`).toString();
+   return {
+     branch: getBetweenOf('* ', '\n', branch),
+     repo: repo
+   };
+  } catch (err){
+    return { err };
+  }
+}
 
+var strClearFormat = (str) => str.replace(/\r?\n|\r|\n/g,'').replace(/\s+/g,' ');
 // prd.sm.initcosnultants.com
 
 var getDomainbase = function(domain) {
@@ -47,19 +59,21 @@ var getEnvs = function(){
     let domains = strClearFormat(getBetweenOf("server_name", ";", configs[i].data));
     let root = "/" + strClearFormat(getBetweenOf("root /", ";", configs[i].data));
     let notes = strClearFormat(getBetweenOf("#notes:",";", configs[i].data)).split("|");
+    let gitData = getGitData(root);
     let dbase = getDomainbase(configs[i].name);
     if (!envs[dbase]) envs[dbase] = {};
     envs[dbase][configs[i].name] = {
       name: configs[i].name,
       notes: notes,
       subdomain: domains.split(" ").map(domain => strClearFormat(domain).split("conf")[0]).filter(v => v!=""),
-      root: root
+      root: root,
+      git: gitData
     };
   }
   return envs;
 };
 
-var objecttoarray= function(obj){
+var objecttoarray = function(obj){
   let arr= [];
   let so;
   for (p in obj)
