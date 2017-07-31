@@ -1,7 +1,11 @@
 const express = require('express');
+const bodyParser     = require('body-parser');
 const fs = require('fs');
 const nginxSites = '/etc/nginx/sites-enabled';
 const execSync = require('child_process').execSync;
+const multer = require('multer');
+const upload = multer({dest: './upload'});
+const path = require('path');
 
 var app = express();
 
@@ -111,6 +115,9 @@ var envstoArr = function(envs){
 app.set('view engine', 'pug');
 app.set('views', './views');
 app.use('/', express.static('./public'));
+  app.use(bodyParser.json());
+ app.use(bodyParser.urlencoded({ extended: true }));
+
 
 app.get('/getVirtualHosts', function (req, res) {
   res.send(envstoArr(getEnvs()));
@@ -122,6 +129,17 @@ app.get('/', function(req, res) {
 
 });
 
+app.get('/updb', function(req, res) {
+  res.render('upload');
+});
+
+app.post('/u', upload.single('myFile'), function(req, res) {
+  console.log("File arrived!");
+   let rex = execSync(`mv ${path.join(__dirname, req.file.path)} /sites/dbs/${req.file.originalname}`).toString();
+  console.log(req.file, '\n\n', rex);
+  res.status(200).end();
+});
+
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
-});
+})
