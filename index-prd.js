@@ -81,7 +81,7 @@ var getEnvs = function(){
     if (!envs[dbase]) envs[dbase] = {};
     envs[dbase][configs[i].name] = {
       name: configs[i].name,
-      notes: notes,
+      notes: [...notes, 'prd'],
       subdomain: domains.split(" ").map(domain => strClearFormat(domain).split("conf")[0]).filter(v => v!=""),
       root: root,
       git: gitData,
@@ -118,6 +118,7 @@ app.use('/', express.static('./public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
 app.get('/getVirtualHosts', function (req, res) {
   res.send(envstoArr(getEnvs()));
 });
@@ -139,6 +140,6 @@ app.post('/u', upload.single('myFile'), function(req, res) {
   res.status(200).end();
 });
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+app.listen(3030, function () {
+  console.log('Example app listening on port 3030!');
 })

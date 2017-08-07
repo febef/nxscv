@@ -43,14 +43,13 @@ html(lang="en")
               small( *bring="git.repo" )
         .col-md-6.col-md-pull-6.container-outside
           br
-          virtualhosts.container( *for='virtualhosts')
-            .list-group
+          virtualhosts.container( *for='virtualhosts', :='div{"class":"list-group"}')
               a.list-group-item.active( *bring="name", href="#")
-              div( *for="envs")
-                a.list-group-item( *onclick="#model.selectme") » &nbsp;
+              div( *for="envs" :='a{"class":"list-group-item"}')
+                div( *onclick="#model.selectme") » &nbsp;
                   span( *bring="name")
-                  .pull-right( *for="notes")
-                    span.label( *bring="#model.value")
+                  .pull-right( *for="notes", :='span{"class":"label"}')
+                    bring( ~#model.value)
 
     script(src="/js/data-link.js")
     script(src="/js/main.js")

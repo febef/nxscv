@@ -360,6 +360,24 @@ DataLink.prototype.makeDefaultDirectives = function(){
     if (typeof gsp(prop, model) === 'undefined')
       gsp(prop, model, {});
 
+    const getIterator = () =>  {
+      let iterator;
+      const ename = 'iteration';
+      const custom = (node.attributes[':']) ? node.attributes[":"].value : undefined ;
+
+      if ( custom  && custom.indexOf("{") >-1) {
+        const cspl = custom.split('{');
+        const attr = JSON.parse("{" + cspl[1]);
+        iterator = document.createElement(cspl[0] || ename);
+        for (a in attr)
+          iterator.setAttribute(a , attr[a]);
+      }else
+        iterator = document.createElement(ename);
+
+      return iterator;
+    };
+
+
     var p = function(v){
       node.innerHTML = "";
       range = [];
@@ -371,7 +389,8 @@ DataLink.prototype.makeDefaultDirectives = function(){
       for (var i, j=0; j < range.length;j++) {
         i = range[j];
 
-        var iteration = document.createElement('iteration');
+        //var iteration = document.createElement('iteration');
+        var iteration = getIterator();
         iteration.innerHTML = doom;
 
         if (typeof v[i] === 'undefined')

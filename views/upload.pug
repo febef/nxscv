@@ -1,0 +1,28 @@
+
+doctype html
+html(lang="en")
+  head
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Init Sandbox Virtual Hosts
+    link(href='https://bootswatch.com/darkly/bootstrap.css', rel='stylesheet')
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
+    link(rel="stylesheet", href="/css/main.css")
+  body( *model="#model")
+    .container-fluid
+      div.navbar.navbar-inverse
+        div.navbar.navbar-default.downloadmanager
+      div
+        center
+          .modal-content(style="margin-top: 60px; width: 400px; padding: 0px 8px 8px 8px;")
+            h2 Subir base de datos!
+            form#formupload(method='post', action='/u')
+              input#file.btn.btn-default(type="file", accept='.sql')
+              br
+              input.btn.btn-primary.btn-xs.pull-right(type='button', accept='.sql', value="subir", onclick='upload.uploadfile(event);')
+            div.row
+              div.span12
+                div.progress.progress-striped.active.hide(style="width: 70%")
+                  div.progress-bar.progress-bar-success.progress-bar-striped.bar(style='width: 0%')
+
+    script(src="/js/upload.js")
+    script(src="/js/data-link.js")
