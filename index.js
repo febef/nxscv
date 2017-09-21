@@ -13,9 +13,12 @@ var getConfs = function(){
   let files = [];
   fs.readdirSync(nginxSites).forEach(file => {
     if(file!="" && file && file[0]!=".") {
-      files.push({name: file, data: fs.readFileSync(nginxSites + '/' + file, 'utf8').toString()});
+      files.push({name: file, instance: 'sandbox', data: fs.readFileSync(nginxSites + '/' + file, 'utf8').toString()});
     }
   });
+
+
+
   return files;
 }
 
@@ -70,23 +73,33 @@ var getEnvs = function(){
   let configs = getConfs();
   let envs = {};
   for (let i=0; i < configs.length; i++) {
+    
+    // VirtualHostData
     let domains = strClearFormat(getBetweenOf("server_name", ";", configs[i].data));
     let root = "/" + strClearFormat(getBetweenOf("root /", ";", configs[i].data));
+    let proxypass = getUpstream(configs[i].data);
+    let dbase = getDomainbase(configs[i].name);
+
+    // SiteData
     let notes = strClearFormat(getBetweenOf("#notes:",";", configs[i].data)).split("|");
     let pwd = strClearFormat(getBetweenOf("#password:",";", configs[i].data));
     let usr = strClearFormat(getBetweenOf("#user:",";", configs[i].data));
-    let proxypass = getUpstream(configs[i].data);
+    let stype = strClearFormat(getBetweenOf("#sitetype:",";", configs[i].data));
     let gitData = getGitData(root);
-    let dbase = getDomainbase(configs[i].name);
+
     if (!envs[dbase]) envs[dbase] = {};
+
     envs[dbase][configs[i].name] = {
-      name: configs[i].name,
-      notes: notes,
-      subdomain: domains.split(" ").map(domain => strClearFormat(domain).split("conf")[0]).filter(v => v!=""),
-      root: root,
-      git: gitData,
       user: {name: usr, pwd},
-      proxypass
+      subdomain: domains.split(" ").map(domain => strClearFormat(domain).split("conf")[0]).filter(v => v!=""),
+      stype,
+      root,
+      proxypass,
+      notes,
+      instance: config[i].instance,
+      name: configs[i].name,
+      git: gitData,
+      db: {name: "", pwd: "", host: ""}
     };
   }
   return envs;
@@ -108,7 +121,6 @@ var objecttoarray = function(obj){
 
 var envstoArr = function(envs){
   var arr = objecttoarray(envs);
-
   return arr;
 }
 
@@ -123,9 +135,7 @@ app.get('/getVirtualHosts', function (req, res) {
 });
 
 app.get('/', function(req, res) {
-
   res.render('index');
-
 });
 
 app.get('/updb', function(req, res) {
