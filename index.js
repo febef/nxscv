@@ -81,10 +81,11 @@ var getEnvs = function(){
     let dbase = getDomainbase(configs[i].name);
 
     // SiteData
-    let notes = strClearFormat(getBetweenOf("#notes:",";", configs[i].data)).split("|");
-    let pwd = strClearFormat(getBetweenOf("#password:",";", configs[i].data));
-    let usr = strClearFormat(getBetweenOf("#user:",";", configs[i].data));
-    let stype = strClearFormat(getBetweenOf("#sitetype:",";", configs[i].data));
+    let notes = strClearFormat(getBetweenOf("# notes:",";", configs[i].data)).split("|");
+    let pwd = strClearFormat(getBetweenOf("# password:",";", configs[i].data));
+    let usr = strClearFormat(getBetweenOf("# user:",";", configs[i].data));
+    let proyect = strClearFormat(getBetweenOf("# proyect:",";", configs[i].data));
+    let stype = strClearFormat(getBetweenOf("# typesite:",";", configs[i].data));
     let gitData = getGitData(root);
 
     if (!envs[dbase]) envs[dbase] = {};
@@ -95,8 +96,9 @@ var getEnvs = function(){
       stype,
       root,
       proxypass,
+      proyect,
       notes,
-      instance: config[i].instance,
+      instance: configs[i].instance,
       name: configs[i].name,
       git: gitData,
       db: {name: "", pwd: "", host: ""}
@@ -144,7 +146,7 @@ app.get('/updb', function(req, res) {
 
 app.post('/u', upload.single('myFile'), function(req, res) {
   console.log("File arrived!");
-  let rex = execSync(`mv ${path.join(__dirname, req.file.path)} /sites/dbs/${req.file.originalname}`).toString();
+  let rex = execSync(`mv ${path.join(__dirname, req.file.path)} ${path.join(__dirname, req.file.destination, req.file.originalname)}`).toString();
   console.log(req.file, '\n\n', rex);
   res.status(200).end();
 });

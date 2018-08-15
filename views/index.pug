@@ -3,13 +3,13 @@ html(lang="en")
   head
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     title Init Sandbox Virtual Hosts
-    link(href='https://bootswatch.com/darkly/bootstrap.css', rel='stylesheet')
-    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
+    link(href='/css/bootstrap.css', rel='stylesheet')
+    script(defer, src="https://use.fontawesome.com/releases/v5.0.2/js/all.js")
     link(rel="stylesheet", href="/css/main.css")
   body( *model="#model")
     .container-fluid
       center.row
-        .col-md-6.col-md-push-6( *model="#model.details")
+        .col-md-6.col-md-pull-6( *model="#model.details")
           .navbar.navbar-inverse
             .container-fluid
               .navbar-header.navbar-right
@@ -37,11 +37,11 @@ html(lang="en")
               span.title <i class="fa fa-server" aria-hidden="true"></i> &nbsp;
               small /etc/nginx/sites-enabled/<bring ~name> </bring>
             p
-              span.title <i class="fa fa-bitbucket" aria-hidden="true"></i> &nbsp;
-              span.title <i class="fa fa-code-fork" aria-hidden="true"></i> &nbsp; 
+              span.title <i class="fab fa-git-square" aria-hidden="true"></i> &nbsp;
+              span.title <i class="fas fa-code-branch" aria-hidden="true"></i> &nbsp; 
               span.title( *bring="git.branch" )
               small( *bring="git.repo" )
-        .col-md-6.col-md-pull-6.container-outside
+        .col-md-6.col-md-push-6.container-outside
           br
           virtualhosts.container( *for='virtualhosts', :='div{"class":"list-group"}')
               a.list-group-item.active( *bring="name", href="#")

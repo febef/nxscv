@@ -3,6 +3,11 @@ html, body, .container, .container-fluid , center.row {
   height: 100%;
 }
 
+.downloadmanager {
+  transition: width;
+  transition-duration: 0.4s;
+}
+
 .list-group {
   width: 100%;
 }
